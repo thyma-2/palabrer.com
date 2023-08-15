@@ -1,56 +1,96 @@
- body{background-color: black;} 
+ body {background-color: black;} 
 
-/* Suppression des puces et des marges pour les listes du menu et des sous-menus */ 
-.dropdownmenu,
+
+ dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown > .dropdown-text {
+    padding: 10px 20px;
+}
+.dropdown > input {
+    top: 0;
+    opacity: 0;
+    margin: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+.dropdown > input:checked + .dropdown-container {
+    transform: scaleY(1);
+}
+.dropdown > .dropdown-container {
+    transform: scaleY(0);
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+    position: absolute;
+}
+.dropdown > .dropdown-container > a {
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    background-color: #ffffff;
+    color: #ffffff;
+}
+
+.inline-block {
+   display: inline-block;
+}
+
+/*
+.dropdown
 .dropdownmenu ul {
     list-style-type: none; 
     margin: 0px; 
     padding: 0px;
 } 
-.dropdownmenu ul { /* Masquage des sous-menu par defaut */
+.dropdownmenu ul { /* Masquage des sous-menu par defaut 
     display: none;
 }
 .dropdownmenu li {
-    /* Disposition horizontale des elements de menu */
+    /* Disposition horizontale des elements de menu 
     display: inline-block;
-    /* Positionnement relative des elements de menu pour pouvoir    positionner les sous-menu correctement en absolu */
+    /* Positionnement relative des elements de menu pour pouvoir    positionner les sous-menu correctement en absolu 
     position: relative;
 }
 .dropdownmenu li:hover ul {
-    /* Affichage du soumenu au survol */
+    /* Affichage du soumenu au survol 
     display: block;
-    /* Positionnement du sous-menu */ 
+    /* Positionnement du sous-menu 
     position: absolute; 
-    top: 36px; /* Hauteur du menu + hauteur du padding top et bottom : 30 + 3 + 3 = 36 */ 
-    left: 0px; /* Decalage du sous-menu par rapport aux liens du menu*/ 
-    z-index: 100; /* Gestion de la superposition des sous-menus par rapport au reste de la page */ 
+    top: 36px; /* Hauteur du menu + hauteur du padding top et bottom : 30 + 3 + 3 = 36 
+    left: 0px; /* Decalage du sous-menu par rapport aux liens du menu
+    z-index: 100; /* Gestion de la superposition des sous-menus par rapport au reste de la page 
 }
 .dropdownmenu ul a { 
-    /* Changement de l'affichage des liens des    sous-menus pour ne pas les afficher en inline-block comme les liens de menu, ils seront donc verticaux */
+    /* Changement de l'affichage des liens des    sous-menus pour ne pas les afficher en inline-block comme les liens de menu, ils seront donc verticaux 
     display: block;
 }
-/* Gestion des couleurs */
+/* Gestion des couleurs 
 .dropdownmenu li { 
-    background-color: #666; /* Couleur d'arriere-plan du menu */
+    background-color: #fff; /* Couleur d'arriere-plan du menu 
 }
 .dropdownmenu li a { 
-    color: #fff; /* Couleur du texte du menu */ 
+    color: #fff; /* Couleur du texte du menu 
 }
 .dropdownmenu li:hover {
-    background-color: #666; /* Couleur d'arriere-plan du menu au survol */
+    background-color: #fff; /* Couleur d'arriere-plan du menu au survol 
 }
 .dropdownmenu li:hover a {
-    color: #fff; /* Couleur du texte du menu au survol */ 
+    color: #fff; /* Couleur du texte du menu au survol 
 }
 .dropdownmenu ul li { 
-    background-color: #666; /* Couleur d'arriere-plan des sous-menu */ 
+    background-color: #555; /* Couleur d'arriere-plan des sous-menu 
 }
 .dropdownmenu ul li:hover {
-    background-color: #666; /* Couleur d'arriere-plan des sous-menu au survol */ 
+    background-color: #555; /* Couleur d'arriere-plan des sous-menu au survol 
 }
 .dropdownmenu ul li a {
-    color: #fff; /* Couleur du texte des sous-menu */ 
+    color: #fff; /* Couleur du texte des sous-menu 
 }
 .dropdownmenu ul li:hover a {
-    color: #fff; /* Couleur du texte des sous-menu au survol */
-}
+    color: #fff; /* Couleur du texte des sous-menu au survol 
+}*/
+

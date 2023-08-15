@@ -1,51 +1,146 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title> palabrer.com </title>
-<link rel="stylesheet" href="index.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.loginbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  min-width: 230px;
+  font-size: 16px;
+  border: yes;
+  cursor: pointer;
+}
+
+.registerbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  min-width: 230px;
+  font-size: 16px;
+  border: yes;
+  cursor: pointer;
+}
+
+.readmebtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  min-width: 230px;
+  font-size: 16px;
+  border: yes;
+  cursor: pointer;
+}
+
+.login-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 230px;
+  overflow: auto;
+  z-index: 1;
+}
+
+.parent{
+display: flex;
+grid-template-columns: 1fr 1fr;
+column-gap: 0px;
+}
+.register-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 230px;
+  overflow: auto;
+  z-index: 1;
+}
+
+
+.show {display: block;}
+
+body {
+        background-image: url('static/fond.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        padding:0;
+        margin:0%;
+}
+</style>
 </head>
 <body>
-<ul class="dropdownmenu">
-    <li><a href="#">create debate</a>
-		<form action="/createDebate">
-			<ul>
-				<li><a>name</a>
-	            <a><input type="text" id="name" name="name"></a>
-				<a>abstract</a>
-	            <a><textarea id="abstract", name="abstract", rows="10", cols="30"></textarea></a>
-				<a><br></a>
-				<a><br></a>
-				<a><br></a>
-				<a><br></a>
-				<a>content</a>
-				<a><textarea id="content" name="content", rows="20", cols="30"></textarea></a>
-				<a><br></a>
-				<a><br></a>
-				<a><br></a>
-                <a><br></a>
-				<a><br></a>
-                <a><br></a>
-				<a><br></a>
-                <a><br></a>
-	            <a><input type="submit" value="Submit"></a></li>
-	        </ul>
-		</form>
-    </li>
-    <li><a href="#">join debate</a>
-		<form action="/joinDebate">
-	        <ul>
-				<li><a>name</a></li>
-	            <li><a><input type="text" id="name" name="name"></a></li>
-				<li><a><input type="submit" value="join"></a></li>
-	        </ul>
-		</form>
-    </li>
-	<li><a href="list.html">list</a>
-        <form action="">
-        </form>
-    </li>
-</ul>
-</form>
+
+<div class="parent">
+<div class="readme">
+<button onclick="<a href='list.html'</a>" class="readmebtn">list</button>
+</div>
+<div class="login">
+  <button onclick="myLoginFunction()" class="loginbtn">create debate</button>
+  <div id="mylogin" class="login-content">
+    <form action="/createDebate">
+    <li>name</li>
+    <li><input type="text" id="name" name="name"></li>
+    <li>abstract</li>
+    <li><textarea id="abstract", name="abstract", rows="10", cols="30"></textarea></li>
+    <li>content</a></li>
+    <li><textarea id="content" name="content", rows="20", cols="30"></textarea></li>
+    <li><input type="submit" value="Submit"></li>
+   </form>
+  </div>
+</div>
+<div class="register">
+  <button onclick="myRegisterFunction()" class="registerbtn">join debate</button>
+  <div id="myRegister" class="register-content">
+    <form action="/joinDebate">
+      <li>name</li>
+      <li><input type="text" id="name" name="name"></li>
+      <li><input type="submit" value="join"></li>
+	</form>
+  </div>
+</div>
+
+</div>
+
+
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myLoginFunction() {
+  document.getElementById("mylogin").classList.toggle("show");
+}
+
+function myRegisterFunction() {
+  document.getElementById("myRegister").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (event.target.matches('-.loginbtn')) {
+    var dropdowns = document.getElementsByClassName("login-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+  else if (event.target.matches('-.registerbtn')) {
+    var dropdowns = document.getElementsByClassName("register-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+
+</script>
+
 </body>
 </html>
-
 

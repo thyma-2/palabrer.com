@@ -40,7 +40,7 @@ class node:
 			if a != None:
 				return a
 		return None
-
+        
 	def create_html(self, x, y, name):
 		global to_ret
 		if self.statut == 0:
@@ -49,42 +49,35 @@ class node:
 			color = "blue"
 		else:
 			color = "red"
-		to_ret += '''
-	<li>
-        <form action="/addNode/'''+name+'_'+self.id + '''">
-            <a>
-                <div style="top: '''  + str(250*y) + '''; left:'''+ str(250*x) + ''';position : absolute; z-index: 1;visibility: show;">
-                    <h4 style="border:''' + color + ''';border-width:3px;border-style:solid;">''' +   self.abstract + ''' </h4>       
-                </div>
-            </a>
-            <div style="top: '''  + str(250*y) + '''; left:'''+ str(250*x) + ''';position : absolute; z-index: 1;visibility: show;">
-                <ul>
-                    <li>
-						<a href="../like/''' + name+'_'+self.id+'''">
-         <img alt="Qries" src="../static/like.png"
-         width="20" height="20"> ''' + str(len(self.like)) + '''
-                        <a href="../dislike/''' + name + '_' + self.id +'''">
-         <img alt="Qries" src="../static/dislike.png"
-         width="20" height="20"> ''' + str(len(self.dislike)) + '''
-						<a> author : ''' + self.author + '''</a>
-						<a> </a>
-                        <a>''' + self.content + '''</a>
-						<a> </a>
-                        <a> abstract </a>
-                        <a><textarea id="abstract", name="abstract", rows="10", cols="30"></textarea></a>
-                        <a>content</a>
-                        <a><textarea id="content" name="content", rows="20", cols="30"></textarea></a>
-						<a> check if you agree : <input type="checkbox" id="agree" name="agree" value="agree"></a>
-                        <a><input type="submit" value="submit"></a></li>
-                    </li>
-                </ul>
-            </div>
-        </form>
-    </li>'''
 		for i in range (0,len(self.children)):
 			if i > 0:	
 				x += 1
 			x = self.children[i].create_html(x, y+1, name)
+		to_ret += '''
+<form action="/addNode/'''+name+'_'+self.id + '''">
+  <div class="dropdown" style="top:'''  + str(250*y) + '''; left:'''+ str(250*x) +''';position : absolute; z-index: 1;visibility: show;">
+
+    <div class="dropdown-text" style="border:''' + color + ''';border-width:3px;border-style:solid;color:white;">'''+self.abstract+ '''<br>----------------------------------</div>
+    <input type="checkbox">
+    <div class="dropdown-container" style="top:50; left:'''+ str(250*x) + ''';position : absolute; z-index: 1;visibility: show;">
+      <div class="inline-block">
+        <a href="../like/''' + name+'_'+self.id+'''"> <img src="../static/like.png" width="20" height="20"> ''' + str(len(self.like)) + ''' </a> 
+      </div>
+      <div class="inline-block">
+        <a href="../dislike/''' + name + '_' + self.id +'''"> <img src="../static/dislike.png" width="20" height="20"> ''' + str(len(self.dislike)) + ''' </a>
+      </div><br>
+
+      ''' + self.content + '''
+      =======================
+      abstract
+      <textarea id="abstract", name="abstract", rows="10", cols="30"></textarea>
+      content
+      <textarea id="content" name="content", rows="20", cols="30"></textarea>
+      check if you agree : <input type="checkbox" id="agree" name="agree" value="agree">
+      <input type="submit" value="submit">
+    </div>
+  </div>
+</form>'''
 		return x
 
 
