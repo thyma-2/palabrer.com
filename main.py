@@ -3,6 +3,7 @@ from time import time
 from login import *
 from os import listdir
 import tree
+import pickle
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -74,11 +75,11 @@ def addNode(link):
 		debat, parentid = link.split('_')
 		if debat in debats:
 			login, b ,c = request.cookies.get('log',0).split(" ")
+			parent_node = tree.find_node(debats[debat], parentid)
 			if "agree" in request.args:
-				n = tree.node(request.args["content"], request.args["abstract"], login, 1)
+				parent_node[4].append([login, request.args["content"], request.args["abstract"],  1, [], [], [], str(int(time()))])
 			else:
-				n = tree.node(request.args["content"], request.args["abstract"], login, 2)
-			debats[debat].append_node(parentid, n)
+				parent_node[4].append([login, request.args["content"], request.args["abstract"],  2, [], [], [], str(int(time()))])
 			return '<meta http-equiv="Refresh" content="0; url=/debate/' + debat+'.html">'
 		else:
 			return '<meta http-equiv="Refresh" content="0; url=/">'
@@ -92,11 +93,12 @@ def like(link):
 		debat, idd = link.split('_')
 		if debat in debats:
 			login, b ,c = request.cookies.get('log',0).split(" ")
-			n = debats[debat].find_node(idd)
-			if login in n.like:
-				n.like.remove(login)
-			else:
-				n.like.append(login)
+			n = find_node(debats[debat], idd)
+			if n != None:
+    				if login in n[5]:
+	    				n[5].remove(login)
+    				else:
+    					n[5].append(login)
 		return '<meta http-equiv="Refresh" content="0; url=/debate/' + debat+'.html">'
 	else:
 		return '<meta http-equiv="Refresh" content="0; url=/">'
@@ -114,51 +116,26 @@ def dislike(link):
         debat, idd = link.split('_')
         if debat in debats:
             login, b ,c = request.cookies.get('log',0).split(" ")
-            n = debats[debat].find_node(idd)
-            if login in n.dislike:
-                n.dislike.remove(login)
+            n = find_node(debats[debat], idd)
+            if login in n[6]:
+                n[6].remove(login)
             else:
-                n.dislike.append(login)
+                n[6].append(login)
         return '<meta http-equiv="Refresh" content="0; url=/debate/' + debat+'.html">'
     else:
         return '<meta http-equiv="Refresh" content="0; url=/">'
 
 def save():
-	for i in debats:
-		f = open("database/debats/" + i, "w")
-		f.write (str(debats[i]))
-		f.close()
-	return "a"
+	global debats
+	f = open("database/debats.pkl", "wb")
+	pickle.dump(debats, f)
+	f.close()
 
 def restore():
-	for d in listdir("database/debats"):
-		f = open("database/debats/" + d, "r")
-		lines = f.readlines()
-		f.close()
-		i = 0
-		for l in lines:
-			l = l[0:-1]
-			if i == 0:
-				author, content, abstract, statut, like, dislike, idd = l.split("\t")
-				statut = int(statut)
-				like = like.split(" ")
-				dislike = dislike.split(" ")
-				n = tree.node(content, abstract, author, statut)
-				n.id = idd
-				n.like = like[0:-1]
-				n.dislike = dislike[0:-1]
-				debats[d] = n
-				i += 1
-			else:
-				parentid, author, content, abstract, statut, like, dislike, idd = l.split("\t")
-				statut = int(statut)
-				like = like.split(" ")[0:-1]
-				dislike = dislike.split(" ")[0:-1]
-				n = tree.node(content, abstract, author, statut)
-				n.id = idd
-				n.like = like
-				n.dislike = dislike
-				debats[d].append_node(parentid, n)
+    global debats
+    f = open("database/debats.pkl", "rb")
+    debats = pickle.load(f)
+    f.close()
 
 
 @app.route('/debate/<string:link>')
@@ -167,7 +144,7 @@ def get_debate(link):
 		debat, trash = link.split(".")
 		tree.to_ret = '<link rel="stylesheet" href="debats.css"><ul class="dropdownmenu">'
 		if debat in debats:
-			debats[debat].create_html(0,0, debat)
+			tree.create_html(debats[debat], 0,0, debat)
 			tree.to_ret += "</ul>"
 			return tree.to_ret
 		else:
@@ -180,7 +157,7 @@ def createDebate():
 	if request.args["name"] in debats:
 		return "you can't choose this name, it's already took"
 	login, b ,c = request.cookies.get('log',0).split(" ")
-	debats[request.args["name"]] = tree.node(request.args["content"], request.args["abstract"], login, 0)
+	debats[request.args["name"]] = [login, request.args["content"], request.args["abstract"],  0, [], [], [], str(int(time()))]
 	return '<meta http-equiv="Refresh" content="0; url=/debate/' + request.args["name"] + '.html">'
 
 @app.route('/joinDebate', methods=['GET','POST'])
