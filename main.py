@@ -140,17 +140,14 @@ def restore():
 
 @app.route('/debate/<string:link>')
 def get_debate(link):
-	if check_cookie(request.cookies.get('log', 0)) == True:
-		debat, trash = link.split(".")
-		tree.to_ret = '<link rel="stylesheet" href="debats.css"><ul class="dropdownmenu">'
-		if debat in debats:
-			tree.create_html(debats[debat], 0,0, debat)
-			tree.to_ret += "</ul>"
-			return tree.to_ret
-		else:
-			return '<meta http-equiv="Refresh" content="0; url=/home.html">'
+	debat, trash = link.split(".")
+	tree.to_ret = '<link rel="stylesheet" href="debats.css"><ul class="dropdownmenu">'
+	if debat in debats:
+		tree.create_html(debats[debat], 0,0, debat)
+		tree.to_ret += "</ul>"
+		return tree.to_ret
 	else:
-		return '<meta http-equiv="Refresh" content="0; url=/">'
+		return '<meta http-equiv="Refresh" content="0; url=/home.html">'
 
 @app.route('/createDebate', methods=['GET', 'POST'])
 def createDebate():
